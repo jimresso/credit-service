@@ -1,0 +1,16 @@
+[{
+  "_id": "payment123",
+  "creditId": "creditId123",
+  "amount": "500.0",
+  "customerId": "123456",
+  "_class": "com.nttdata.creditproducts.service.model.PaymentDTO"
+},
+{
+  "_id": {
+    "$oid": "67e82db111b16856d3db3585"
+  },
+  "creditId": "123456",
+  "amount": "500.0",
+  "customerId": "123456",
+  "_class": "com.nttdata.creditproducts.service.model.PaymentDTO"
+}]

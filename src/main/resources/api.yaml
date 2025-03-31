@@ -1,0 +1,308 @@
+openapi: 3.0.1
+info:
+  title: Credit Products API
+  description: API para la gestión de productos de crédito en el banco
+  version: 1.0.0
+
+paths:
+  /credits:
+    get:
+      summary: Obtener todos los créditos
+      operationId: getAllCredits
+      responses:
+        '200':
+          description: Lista de créditos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Credit'
+    post:
+      summary: Crear un nuevo crédito
+      operationId: createCredit
+      responses:
+        '201':
+          description: Crédito creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+
+  /credits/{id}:
+    get:
+      summary: Obtener un crédito por ID
+      operationId: getCreditById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalle del crédito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Credit'
+    put:
+      summary: Actualizar un crédito
+      operationId: updateCredit
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Crédito actualizado exitosamente
+    delete:
+      summary: Eliminar un crédito
+      operationId: deleteCredit
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Crédito eliminado exitosamente
+
+  /creditcards:
+    get:
+      summary: Obtener todas las tarjetas de crédito
+      operationId: getAllCreditCards
+      responses:
+        '200':
+          description: Lista de tarjetas de crédito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditCard'
+    post:
+      summary: Crear una nueva tarjeta de crédito
+      operationId: createCreditCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCard'
+      responses:
+        '201':
+          description: Tarjeta de crédito creada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+
+  /creditcards/{id}:
+    get:
+      summary: Obtener una tarjeta de crédito por ID
+      operationId: getCreditCardById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Detalle de la tarjeta de crédito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+    put:
+      summary: Actualizar una tarjeta de crédito
+      operationId: updateCreditCard
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tarjeta de crédito actualizada exitosamente
+    delete:
+      summary: Eliminar una tarjeta de crédito
+      operationId: deleteCreditCard
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tarjeta de crédito eliminada exitosamente
+    post:
+      summary: Actualizar una tarjeta de crédito existente
+      operationId: updateCreditCardDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCard'
+      responses:
+        '200':
+          description: Tarjeta de crédito actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditCard'
+
+  /api/consume:
+    post:
+      summary: Consume a specified amount on the credit card
+      operationId: consumeCreditCard
+      tags:
+        - consume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/transactionRequest'  # Referencia al esquema de Transaction
+      responses:
+        '200':
+          description: Credit card successfully updated with consumption
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'  # El esquema actualizado de la tarjeta de crédito
+        '400':
+          description: Insufficient credit limit or invalid request
+        '404':
+          description: Credit card not found
+
+
+  /payments:
+    post:
+      summary: Registrar un pago de crédito
+      operationId: registerPayment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+      responses:
+        '201':
+          description: Pago registrado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+
+
+components:
+  schemas:
+    Credit:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        creditType:
+          type: string
+          enum: [PERSONAL, EMPRESARIAL]
+        amount:
+          type: number
+        interestRate:
+          type: number
+        termMonths:
+          type: integer
+        status:
+          type: string
+          enum: [ACTIVE, CLOSED]
+
+    CreditCard:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: string
+        cardNumber:
+          type: string
+        expirationDate:
+          type: string
+          format: date
+        limit:
+          type: number
+        balance:
+          type: number
+        status:
+          type: string
+          enum: [ACTIVE, BLOCKED, CLOSED]
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: string
+        creditId:
+          type: string
+        amount:
+          type: number
+        paymentDate:
+          type: string
+          format: date
+        customerId:
+          type: string
+
+        creditCards:
+          type: array
+          items:
+            type: object
+            properties:
+              creditCardId:
+                type: string
+              availableBalance:
+                type: number
+
+    transactionRequest:
+      type: object
+      properties:
+        customerId:
+          type: string
+        monto:
+          type: number
+
+
+    Transaction:
+      type: object
+      properties:
+        customerId:
+          type: string  # Usando customerId para asociar la transacción al cliente
+        amount:
+          type: number
+          format: double
+        transactionDate:
+          type: string
+          format: date
+        transactionType:
+          type: string
+          enum:
+            - Compra
+            - Pago
+      required:
+        - customerId
+        - amount
+        - transactionDate
+        - transactionType

@@ -1,0 +1,109 @@
+[{
+  "_id": {
+    "$oid": "67eae97ef5d1006d55c3803b"
+  },
+  "customerId": "67890",
+  "amount": 200,
+  "transactionDate": "2025-03-31",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaec27a8b3965d6f0e2500"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaec933ec0946c7e909308"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaed09c40b367d0eb168c2"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaed2ee3c86d3e0502369b"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaed4ec5ada32baa2a9214"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaede9f97344613d073dd5"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaee13f97344613d073dd6"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaee9df97344613d073dd7"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaf061fefc1f773b8971ac"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+},
+{
+  "_id": {
+    "$oid": "67eaf12dccbcb16425ae6cce"
+  },
+  "customerId": "67890",
+  "amount": 1000,
+  "transactionDate": "2025-03-31",
+  "transactionType": "COMPRA",
+  "_class": "com.nttdata.creditproducts.service.model.TransactionDTO"
+}]
