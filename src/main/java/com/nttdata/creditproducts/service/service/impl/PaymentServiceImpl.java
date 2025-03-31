@@ -39,10 +39,10 @@ public class PaymentServiceImpl implements PaymentService {
     private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Override
-    public Mono<ResponseEntity<Payment>> create(Payment payment) { // Un cliente puede hacer pagos de sus productos de crédito.
+    public Mono<ResponseEntity<Payment>> create(Payment payment) {
         WebClient webClient = webClientBuilder.build();
         return webClient.get()
-                .uri(accountsUri)// invoca al servico : http://localhost:8086/api/accounts
+                .uri(accountsUri)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Account>>() {})
                 .flatMapMany(Flux::fromIterable)

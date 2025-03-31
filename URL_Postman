@@ -1,0 +1,27 @@
+[POS] Registra los consumos del usuario
+http://localhost:8087/api/consume
+{
+  "customerId": "67890",
+  "monto": 1000
+}
+******************************************************
+[POST] Crea tarjetas de credito -->> para probar necesita que el servicio:http://localhost:8086/api/accounts se encuntre levantado
+http://localhost:8087/creditcards
+{
+  "customerId": "67890",
+  "cardNumber": "1234567812345678",
+  "expirationDate": "2025-12-31",
+  "limit": 5000,
+  "balance": 0,
+  "status": "ACTIVE"
+}
+******************************************************
+[POST] Registra los pagos realizados a productos de tarjeta
+http://localhost:8087/payments
+{
+    "id": "67e82db111b16856d3db3585",
+    "creditId": "123456",
+    "amount": 500.0,
+    "customerId": "123456",
+    "paymentDate": "2025-03-30"
+}
