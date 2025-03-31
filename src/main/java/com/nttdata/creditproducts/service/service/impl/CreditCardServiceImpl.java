@@ -1,14 +1,11 @@
 package com.nttdata.creditproducts.service.service.impl;
 
-import com.nttdata.creditproducts.service.exception.CreditCardNotFoundException;
-import com.nttdata.creditproducts.service.exception.DuplicateCreditCardException;
+
 import com.nttdata.creditproducts.service.mapper.CreditCardMapper;
 import com.nttdata.creditproducts.service.model.Account;
-import com.nttdata.creditproducts.service.model.CreditCardDTO;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.service.CreditCardService;
 import lombok.RequiredArgsConstructor;
-import org.openapitools.model.Credit;
 import org.openapitools.model.CreditCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +29,6 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardMapper creditCardMapper;
     private static final Logger logger = LoggerFactory.getLogger(CreditCardServiceImpl.class);
 
-    @Autowired
     private WebClient.Builder webClientBuilder;
     @Value("${account.service.uri.put}")
     private String accountsUri;
@@ -54,7 +50,7 @@ public class CreditCardServiceImpl implements CreditCardService {
                 .flatMap(account -> {
                     logger.info("Building credit for the customer {}", credit.getCustomerId());
                     return creditCardRepository.save(creditCardMapper.toEntity(credit))
-                            .map(savedCreditDTO -> creditCardMapper.toDto(savedCreditDTO))
+                            .map(creditCardMapper::toDto)
                             .map(savedCredit -> ResponseEntity
                                     .status(HttpStatus.CREATED)
                                     .body(savedCredit)

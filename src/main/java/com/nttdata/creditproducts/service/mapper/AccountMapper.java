@@ -4,7 +4,6 @@ import com.nttdata.creditproducts.service.model.Account;
 import com.nttdata.creditproducts.service.model.AccountResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {

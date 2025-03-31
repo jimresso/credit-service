@@ -32,7 +32,6 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
     private final AccountMapper accountMapper;
 
-    @Autowired
     private WebClient.Builder webClientBuilder;
     @Value("${account.service.uri.put}")
     private String accountsUri;

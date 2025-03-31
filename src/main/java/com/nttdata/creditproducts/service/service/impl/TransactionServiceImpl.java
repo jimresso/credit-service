@@ -5,7 +5,6 @@ import com.nttdata.creditproducts.service.exception.CreditCardNotFoundException;
 import com.nttdata.creditproducts.service.exception.InsufficientFundsException;
 import com.nttdata.creditproducts.service.mapper.CreditCardMapper;
 import com.nttdata.creditproducts.service.mapper.TransactionMapper;
-import com.nttdata.creditproducts.service.model.TransactionDTO;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.repository.TransactionRepository;
 import com.nttdata.creditproducts.service.service.TransactionService;
@@ -28,7 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
     private final CreditCardMapper creditCardMapper;
-    private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
     @Override
     public Mono<ResponseEntity<Transaction>> consume(TransactionRequest transactionRequest) { // Un cliente puede cargar consumos a sus tarjetas de crédito en base a su límite de crédito.
         String customerId = transactionRequest.getCustomerId();
