@@ -17,7 +17,8 @@ import java.util.Objects;
  * Account
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-30T12:02:01.431172500-05:00[America/Lima]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen",
+        date = "2025-03-30T12:02:01.431172500-05:00[America/Lima]")
 public class Account {
 
   private String id;
@@ -220,7 +221,8 @@ public class Account {
    * @return monthlyLimit
   */
   
-  @Schema(name = "monthlyLimit", description = "Only applicable for CORRIENTE accounts", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "monthlyLimit", description = "Only applicable for CORRIENTE accounts",
+          requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("monthlyLimit")
   public Integer getMonthlyLimit() {
     return monthlyLimit;
@@ -240,7 +242,8 @@ public class Account {
    * @return lastDepositDate
   */
   @Valid 
-  @Schema(name = "lastDepositDate", description = "Only applicable for PLAZO_FIJO accounts", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "lastDepositDate", description = "Only applicable for PLAZO_FIJO accounts",
+          requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastDepositDate")
   public LocalDate getLastDepositDate() {
     return lastDepositDate;

@@ -39,7 +39,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         return webClient.get()
                 .uri(accountsUri)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Account>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<Account>>() { })
                 .flatMapMany(Flux::fromIterable)
                 .filter(account -> account.getCustomerId().equals(credit.getCustomerId()))
                 .next()
@@ -55,7 +55,8 @@ public class CreditCardServiceImpl implements CreditCardService {
                                     .status(HttpStatus.CREATED)
                                     .body(savedCredit)
                             )
-                            .doOnSuccess(savedCredit -> logger.info("Credit successfully created for the client: {}", savedCredit));
+                            .doOnSuccess(savedCredit ->
+                                    logger.info("Credit successfully created for the client: {}", savedCredit));
                 });
     }
 }

@@ -28,8 +28,9 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper transactionMapper;
     private final CreditCardMapper creditCardMapper;
     private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
+    // Un cliente puede cargar consumos a sus tarjetas de crédito en base a su límite de crédito.
     @Override
-    public Mono<ResponseEntity<Transaction>> consume(TransactionRequest transactionRequest) { // Un cliente puede cargar consumos a sus tarjetas de crédito en base a su límite de crédito.
+    public Mono<ResponseEntity<Transaction>> consume(TransactionRequest transactionRequest) {
         String customerId = transactionRequest.getCustomerId();
         Double amount = transactionRequest.getMonto().doubleValue();
 
@@ -38,7 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
                     if (creditCard.getBalance().doubleValue() < amount) {
                         return Mono.error(new InsufficientFundsException("Insufficient balance"));
                     }
-                    double amountLimit =  creditCard.getBalance().doubleValue()- amount ;
+                    double amountLimit =  creditCard.getBalance().doubleValue() - amount ;
                     BigDecimal amountToSubtract = BigDecimal.valueOf(amountLimit);
                     BigDecimal newBalance = creditCard.getBalance().subtract(amountToSubtract);
                     creditCard.setBalance(newBalance);
@@ -50,7 +51,8 @@ public class TransactionServiceImpl implements TransactionService {
                                 transaction.setTransactionDate(LocalDate.now());
                                 transaction.setTransactionType(Transaction.TransactionTypeEnum.COMPRA);
                                 return transactionRepository.save(transactionMapper.toDto(transaction))
-                                        .map(savedTransactionDTO -> ResponseEntity.ok(transactionMapper.toEntity(savedTransactionDTO)));
+                                        .map(savedTransactionDTO ->
+                                                ResponseEntity.ok(transactionMapper.toEntity(savedTransactionDTO)));
                             });
                 })
                 .switchIfEmpty(Mono.error(new CreditCardNotFoundException("Credit card not found")));
