@@ -6,6 +6,8 @@ import com.nttdata.creditproducts.service.model.Account;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.service.CreditCardService;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.CardRequest;
+import org.openapitools.model.CardResponse;
 import org.openapitools.model.CreditCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +59,23 @@ public class CreditCardServiceImpl implements CreditCardService {
                             )
                             .doOnSuccess(savedCredit ->
                                     logger.info("Credit successfully created for the client: {}", savedCredit));
+                });
+    }
+
+    @Override
+    public Mono<ResponseEntity<CardResponse>> validCreditCard(CardRequest cardRequest) {
+        return Flux.fromIterable(cardRequest.getCustomerId())
+                .flatMap(customerId -> creditCardRepository.findByCustomerId(customerId)
+                )
+                .hasElements()
+                .map(hasCreditCard -> {
+                    CardResponse response = new CardResponse();
+                    response.setCreditCard(hasCreditCard);
+                    if (hasCreditCard) {
+                        return ResponseEntity.ok(response);
+                    } else {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                    }
                 });
     }
 }

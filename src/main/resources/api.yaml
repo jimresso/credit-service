@@ -1,3 +1,4 @@
+
 openapi: 3.0.1
 info:
   title: Credit Products API
@@ -9,6 +10,8 @@ paths:
     get:
       summary: Obtener todos los créditos
       operationId: getAllCredits
+      tags:
+        - credit
       responses:
         '200':
           description: Lista de créditos
@@ -21,6 +24,8 @@ paths:
     post:
       summary: Crear un nuevo crédito
       operationId: createCredit
+      tags:
+        - credit
       responses:
         '201':
           description: Crédito creado exitosamente
@@ -33,6 +38,8 @@ paths:
     get:
       summary: Obtener un crédito por ID
       operationId: getCreditById
+      tags:
+        - credit
       parameters:
         - name: id
           in: path
@@ -49,6 +56,8 @@ paths:
     put:
       summary: Actualizar un crédito
       operationId: updateCredit
+      tags:
+        - credit
       parameters:
         - name: id
           in: path
@@ -61,6 +70,8 @@ paths:
     delete:
       summary: Eliminar un crédito
       operationId: deleteCredit
+      tags:
+        - credit
       parameters:
         - name: id
           in: path
@@ -75,6 +86,8 @@ paths:
     get:
       summary: Obtener todas las tarjetas de crédito
       operationId: getAllCreditCards
+      tags:
+        - credicard
       responses:
         '200':
           description: Lista de tarjetas de crédito
@@ -87,6 +100,8 @@ paths:
     post:
       summary: Crear una nueva tarjeta de crédito
       operationId: createCreditCard
+      tags:
+        - credicard
       requestBody:
         required: true
         content:
@@ -105,6 +120,8 @@ paths:
     get:
       summary: Obtener una tarjeta de crédito por ID
       operationId: getCreditCardById
+      tags:
+        - credicard
       parameters:
         - name: id
           in: path
@@ -121,6 +138,8 @@ paths:
     put:
       summary: Actualizar una tarjeta de crédito
       operationId: updateCreditCard
+      tags:
+        - credicard
       parameters:
         - name: id
           in: path
@@ -133,6 +152,8 @@ paths:
     delete:
       summary: Eliminar una tarjeta de crédito
       operationId: deleteCreditCard
+      tags:
+        - credicard
       parameters:
         - name: id
           in: path
@@ -145,6 +166,8 @@ paths:
     post:
       summary: Actualizar una tarjeta de crédito existente
       operationId: updateCreditCardDetails
+      tags:
+        - credicard
       parameters:
         - name: id
           in: path
@@ -164,6 +187,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreditCard'
+  /creditcards/exists:
+    post:
+      summary: validate if you have a credit card
+      operationId: hascreeditcard
+      tags:
+        - credicard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cardRequest'
+      responses:
+        '200':
+          description: if you find an associated credit card
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cardResponse'
+        '404':
+          description: Credit card not found
 
   /api/consume:
     post:
@@ -194,6 +238,8 @@ paths:
     post:
       summary: Registrar un pago de crédito
       operationId: registerPayment
+      tags:
+        - payments
       requestBody:
         required: true
         content:
@@ -306,3 +352,17 @@ components:
         - amount
         - transactionDate
         - transactionType
+
+    cardRequest:
+      type: object
+      properties:
+        customerId:
+          type: array
+          items:
+            type: string
+
+    cardResponse:
+      type: object
+      properties:
+        creditCard:
+          type: boolean
