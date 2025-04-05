@@ -5,6 +5,7 @@ import com.nttdata.creditproducts.service.mapper.CreditCardMapper;
 import com.nttdata.creditproducts.service.model.Account;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.service.CreditCardService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.CardRequest;
 import org.openapitools.model.CardResponse;
@@ -30,11 +31,19 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final CreditCardMapper creditCardMapper;
     private static final Logger logger = LoggerFactory.getLogger(CreditCardServiceImpl.class);
-
+    @Autowired
     private WebClient.Builder webClientBuilder;
     @Value("${account.service.uri.put}")
     private String accountsUri;
 
+    @PostConstruct
+    public void init() {
+        if (webClientBuilder != null) {
+            System.out.println("WebClient.Builder inyectado correctamente.");
+        } else {
+            System.out.println("WebClient.Builder no está inyectado.");
+        }
+    }
     @Override
     public Mono<ResponseEntity<CreditCard>> createCreditCard(CreditCard credit) {
         WebClient webClient = webClientBuilder.build();
@@ -71,11 +80,7 @@ public class CreditCardServiceImpl implements CreditCardService {
                 .map(hasCreditCard -> {
                     CardResponse response = new CardResponse();
                     response.setCreditCard(hasCreditCard);
-                    if (hasCreditCard) {
                         return ResponseEntity.ok(response);
-                    } else {
-                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-                    }
                 });
     }
 }

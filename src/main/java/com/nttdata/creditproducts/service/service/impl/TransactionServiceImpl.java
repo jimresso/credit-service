@@ -36,12 +36,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         return creditCardRepository.findByCustomerId(customerId)
                 .flatMap(creditCard -> {
-                    if (creditCard.getBalance().doubleValue() < amount) {
-                        return Mono.error(new InsufficientFundsException("Insufficient balance"));
+                    double amountLimit = creditCard.getBalance().doubleValue() + amount;
+                    if (amountLimit > creditCard.getLimit().doubleValue()) {
+                        return Mono.error(new InsufficientFundsException("Limit exceeded"));
                     }
-                    double amountLimit =  creditCard.getBalance().doubleValue() - amount ;
-                    BigDecimal amountToSubtract = BigDecimal.valueOf(amountLimit);
-                    BigDecimal newBalance = creditCard.getBalance().subtract(amountToSubtract);
+                    BigDecimal newBalance = BigDecimal.valueOf(amountLimit);
                     creditCard.setBalance(newBalance);
                     return creditCardRepository.save(creditCardMapper.toEntity(creditCard))
                             .flatMap(updatedCreditCard -> {
