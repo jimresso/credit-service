@@ -51,6 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
                                 Transaction.TransactionTypeEnum type = Transaction.TransactionTypeEnum.valueOf(
                                         transactionRequest.getTransactionType().name());
                                 transaction.setTransactionType(type);
+                                transaction.setDni(updatedCreditCard.getDni());
                                 return transactionRepository.save(transactionMapper.toDto(transaction))
                                         .map(savedTransactionDTO ->
                                                 ResponseEntity.ok(transactionMapper.toEntity(savedTransactionDTO)));

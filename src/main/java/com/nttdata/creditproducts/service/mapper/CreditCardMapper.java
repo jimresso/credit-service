@@ -8,6 +8,7 @@ import org.openapitools.model.CreditCard;
 @Mapper(componentModel = "spring")
 public interface CreditCardMapper {
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "dni", source = "dni")
     @Mapping(target = "customerId", source = "customerId")
     @Mapping(target = "cardNumber", source = "cardNumber")
     @Mapping(target = "expirationDate", source = "expirationDate")
@@ -17,6 +18,7 @@ public interface CreditCardMapper {
     CreditCardDTO toEntity(CreditCard dto);
 
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "dni", source = "dni")
     @Mapping(target = "customerId", source = "customerId")
     @Mapping(target = "cardNumber", source = "cardNumber")
     @Mapping(target = "expirationDate", source = "expirationDate")

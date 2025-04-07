@@ -254,6 +254,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/Payment'
 
+  /report/operations:
+    post:
+      operationId: reportOperations
+      tags:
+        - report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReportOperationsRequest"
+      responses:
+        '200':
+          description: Single account operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportOperationsResponse"
+
 
 components:
   schemas:
@@ -283,6 +302,8 @@ components:
         id:
           type: string
         customerId:
+          type: string
+        dni:
           type: string
         cardNumber:
           type: string
@@ -339,6 +360,8 @@ components:
     Transaction:
       type: object
       properties:
+        dni:
+          type: string
         customerId:
           type: string
         amount:
@@ -371,3 +394,21 @@ components:
       properties:
         creditCard:
           type: boolean
+
+    ReportOperationsResponse:
+      type: object
+      properties:
+        dni:
+          type: string
+        amount:
+          type: number
+          format: double
+        reportDate:
+          type: string
+          format: date
+
+    ReportOperationsRequest:
+      type: object
+      properties:
+        dni:
+          type: string

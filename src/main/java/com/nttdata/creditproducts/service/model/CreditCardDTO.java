@@ -13,6 +13,7 @@ public class CreditCardDTO {
     @Id
     private String id;
     private String customerId;
+    private String dni;
     private String cardNumber;
     private LocalDate expirationDate;
     private Double limit;
