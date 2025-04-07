@@ -8,8 +8,10 @@ import org.openapitools.model.Transaction;
 import org.openapitools.model.TransactionRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -22,8 +24,15 @@ private final TransactionService transactionService;
     @Override
     public Mono<ResponseEntity<Transaction>> consumeCreditCard(Mono<TransactionRequest>transactionRequest,
                                                                ServerWebExchange exchange) {
-        logger.info("Starting createCreditCard");
-        return transactionRequest.flatMap(transactionService::consume);
+        logger.info("Starting consumeCreditCard");
+        return transactionRequest
+                .doOnNext(req -> logger.info("Received request: {}", req))
+                .flatMap(transactionService::consume)
+                .doOnSuccess(result -> logger.info("Transaction processed: {}", result))
+                .onErrorResume(ex -> {
+                    logger.error("Error consuming credit card: {}", ex.getMessage(), ex);
+                    return Mono.error(new ResponseStatusException(
+                            HttpStatus.INTERNAL_SERVER_ERROR, "Error processing transaction"));
+                });
     }
-
 }

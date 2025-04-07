@@ -48,7 +48,9 @@ public class TransactionServiceImpl implements TransactionService {
                                 transaction.setCustomerId(customerId);
                                 transaction.setAmount(amount);
                                 transaction.setTransactionDate(LocalDate.now());
-                                transaction.setTransactionType(Transaction.TransactionTypeEnum.COMPRA);
+                                Transaction.TransactionTypeEnum type = Transaction.TransactionTypeEnum.valueOf(
+                                        transactionRequest.getTransactionType().name());
+                                transaction.setTransactionType(type);
                                 return transactionRepository.save(transactionMapper.toDto(transaction))
                                         .map(savedTransactionDTO ->
                                                 ResponseEntity.ok(transactionMapper.toEntity(savedTransactionDTO)));

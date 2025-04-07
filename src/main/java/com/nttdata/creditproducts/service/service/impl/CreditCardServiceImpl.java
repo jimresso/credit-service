@@ -67,7 +67,7 @@ public class CreditCardServiceImpl implements CreditCardService {
                                     .body(savedCredit)
                             )
                             .doOnSuccess(savedCredit ->
-                                    logger.info("Credit successfully created for the client: {}", savedCredit));
+                                    logger.info("Credit successfully created"));
                 });
     }
 

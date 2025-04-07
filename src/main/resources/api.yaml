@@ -329,13 +329,18 @@ components:
           type: string
         monto:
           type: number
+        transactionType:
+          type: string
+          enum:
+            - COMPRA
+            - PAGO
 
 
     Transaction:
       type: object
       properties:
         customerId:
-          type: string  # Usando customerId para asociar la transacción al cliente
+          type: string
         amount:
           type: number
           format: double
