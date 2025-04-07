@@ -25,14 +25,6 @@ private final TransactionService transactionService;
     public Mono<ResponseEntity<Transaction>> consumeCreditCard(Mono<TransactionRequest>transactionRequest,
                                                                ServerWebExchange exchange) {
         logger.info("Starting consumeCreditCard");
-        return transactionRequest
-                .doOnNext(req -> logger.info("Received request: {}", req))
-                .flatMap(transactionService::consume)
-                .doOnSuccess(result -> logger.info("Transaction processed: {}", result))
-                .onErrorResume(ex -> {
-                    logger.error("Error consuming credit card: {}", ex.getMessage(), ex);
-                    return Mono.error(new ResponseStatusException(
-                            HttpStatus.INTERNAL_SERVER_ERROR, "Error processing transaction"));
-                });
+        return transactionRequest.flatMap(transactionService::consume);
     }
 }
