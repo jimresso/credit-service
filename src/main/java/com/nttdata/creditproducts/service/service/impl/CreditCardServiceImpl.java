@@ -5,7 +5,10 @@ import com.nttdata.creditproducts.service.mapper.CreditCardMapper;
 import com.nttdata.creditproducts.service.model.Account;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.service.CreditCardService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.CardRequest;
+import org.openapitools.model.CardResponse;
 import org.openapitools.model.CreditCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +31,7 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final CreditCardMapper creditCardMapper;
     private static final Logger logger = LoggerFactory.getLogger(CreditCardServiceImpl.class);
-
+    @Autowired
     private WebClient.Builder webClientBuilder;
     @Value("${account.service.uri.put}")
     private String accountsUri;
@@ -39,7 +42,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         return webClient.get()
                 .uri(accountsUri)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Account>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<Account>>() { })
                 .flatMapMany(Flux::fromIterable)
                 .filter(account -> account.getCustomerId().equals(credit.getCustomerId()))
                 .next()
@@ -55,7 +58,21 @@ public class CreditCardServiceImpl implements CreditCardService {
                                     .status(HttpStatus.CREATED)
                                     .body(savedCredit)
                             )
-                            .doOnSuccess(savedCredit -> logger.info("Credit successfully created for the client: {}", savedCredit));
+                            .doOnSuccess(savedCredit ->
+                                    logger.info("Credit successfully created"));
+                });
+    }
+
+    @Override
+    public Mono<ResponseEntity<CardResponse>> validCreditCard(CardRequest cardRequest) {
+        return Flux.fromIterable(cardRequest.getCustomerId())
+                .flatMap(customerId -> creditCardRepository.findByCustomerId(customerId)
+                )
+                .hasElements()
+                .map(hasCreditCard -> {
+                    CardResponse response = new CardResponse();
+                    response.setCreditCard(hasCreditCard);
+                        return ResponseEntity.ok(response);
                 });
     }
 }

@@ -17,19 +17,22 @@ import java.util.Objects;
  * Account
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-03-30T12:02:01.431172500-05:00[America/Lima]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen",
+        date = "2025-04-06T09:29:02.313918400-05:00[America/Lima]")
 public class Account {
 
   private String id;
 
   private String customerId;
 
+  private String dni;
+
   /**
    * Gets or Sets customerType
    */
   public enum CustomerTypeEnum {
     PERSONAL("PERSONAL"),
-    
+
     EMPRESARIAL("EMPRESARIAL");
 
     private String value;
@@ -66,9 +69,9 @@ public class Account {
    */
   public enum AccountTypeEnum {
     AHORRO("AHORRO"),
-    
+
     CORRIENTE("CORRIENTE"),
-    
+
     PLAZO_FIJO("PLAZO_FIJO");
 
     private String value;
@@ -100,6 +103,43 @@ public class Account {
 
   private AccountTypeEnum accountType;
 
+  /**
+   * Gets or Sets clientType
+   */
+  public enum ClientTypeEnum {
+    VIP("VIP"),
+
+    PYME("PYME");
+
+    private String value;
+
+    ClientTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ClientTypeEnum fromValue(String value) {
+      for (ClientTypeEnum b : ClientTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  private ClientTypeEnum clientType;
+
   private Double balance;
 
   private Integer monthlyLimit;
@@ -110,6 +150,8 @@ public class Account {
   @Valid
   private List<String> holders;
 
+  private Double limitTransaction;
+
   public Account id(String id) {
     this.id = id;
     return this;
@@ -118,8 +160,8 @@ public class Account {
   /**
    * Get id
    * @return id
-  */
-  
+   */
+
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
   public String getId() {
@@ -138,8 +180,8 @@ public class Account {
   /**
    * Get customerId
    * @return customerId
-  */
-  
+   */
+
   @Schema(name = "customerId", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("customerId")
   public String getCustomerId() {
@@ -150,6 +192,26 @@ public class Account {
     this.customerId = customerId;
   }
 
+  public Account dni(String dni) {
+    this.dni = dni;
+    return this;
+  }
+
+  /**
+   * Get dni
+   * @return dni
+   */
+
+  @Schema(name = "dni", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("dni")
+  public String getDni() {
+    return dni;
+  }
+
+  public void setDni(String dni) {
+    this.dni = dni;
+  }
+
   public Account customerType(CustomerTypeEnum customerType) {
     this.customerType = customerType;
     return this;
@@ -158,8 +220,8 @@ public class Account {
   /**
    * Get customerType
    * @return customerType
-  */
-  
+   */
+
   @Schema(name = "customerType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("customerType")
   public CustomerTypeEnum getCustomerType() {
@@ -178,8 +240,8 @@ public class Account {
   /**
    * Get accountType
    * @return accountType
-  */
-  
+   */
+
   @Schema(name = "accountType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("accountType")
   public AccountTypeEnum getAccountType() {
@@ -190,6 +252,26 @@ public class Account {
     this.accountType = accountType;
   }
 
+  public Account clientType(ClientTypeEnum clientType) {
+    this.clientType = clientType;
+    return this;
+  }
+
+  /**
+   * Get clientType
+   * @return clientType
+   */
+
+  @Schema(name = "clientType", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("clientType")
+  public ClientTypeEnum getClientType() {
+    return clientType;
+  }
+
+  public void setClientType(ClientTypeEnum clientType) {
+    this.clientType = clientType;
+  }
+
   public Account balance(Double balance) {
     this.balance = balance;
     return this;
@@ -198,8 +280,8 @@ public class Account {
   /**
    * Get balance
    * @return balance
-  */
-  
+   */
+
   @Schema(name = "balance", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("balance")
   public Double getBalance() {
@@ -218,9 +300,10 @@ public class Account {
   /**
    * Only applicable for CORRIENTE accounts
    * @return monthlyLimit
-  */
-  
-  @Schema(name = "monthlyLimit", description = "Only applicable for CORRIENTE accounts", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+   */
+
+  @Schema(name = "monthlyLimit",
+          description = "Only applicable for CORRIENTE accounts", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("monthlyLimit")
   public Integer getMonthlyLimit() {
     return monthlyLimit;
@@ -238,9 +321,10 @@ public class Account {
   /**
    * Only applicable for PLAZO_FIJO accounts
    * @return lastDepositDate
-  */
-  @Valid 
-  @Schema(name = "lastDepositDate", description = "Only applicable for PLAZO_FIJO accounts", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+   */
+  @Valid
+  @Schema(name = "lastDepositDate", description = "Only applicable for PLAZO_FIJO accounts",
+          requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("lastDepositDate")
   public LocalDate getLastDepositDate() {
     return lastDepositDate;
@@ -266,8 +350,8 @@ public class Account {
   /**
    * Get holders
    * @return holders
-  */
-  
+   */
+
   @Schema(name = "holders", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("holders")
   public List<String> getHolders() {
@@ -276,6 +360,26 @@ public class Account {
 
   public void setHolders(List<String> holders) {
     this.holders = holders;
+  }
+
+  public Account limitTransaction(Double limitTransaction) {
+    this.limitTransaction = limitTransaction;
+    return this;
+  }
+
+  /**
+   * Get limitTransaction
+   * @return limitTransaction
+   */
+
+  @Schema(name = "limitTransaction", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("limitTransaction")
+  public Double getLimitTransaction() {
+    return limitTransaction;
+  }
+
+  public void setLimitTransaction(Double limitTransaction) {
+    this.limitTransaction = limitTransaction;
   }
 
   @Override
@@ -288,18 +392,22 @@ public class Account {
     }
     Account account = (Account) o;
     return Objects.equals(this.id, account.id) &&
-        Objects.equals(this.customerId, account.customerId) &&
-        Objects.equals(this.customerType, account.customerType) &&
-        Objects.equals(this.accountType, account.accountType) &&
-        Objects.equals(this.balance, account.balance) &&
-        Objects.equals(this.monthlyLimit, account.monthlyLimit) &&
-        Objects.equals(this.lastDepositDate, account.lastDepositDate) &&
-        Objects.equals(this.holders, account.holders);
+            Objects.equals(this.customerId, account.customerId) &&
+            Objects.equals(this.dni, account.dni) &&
+            Objects.equals(this.customerType, account.customerType) &&
+            Objects.equals(this.accountType, account.accountType) &&
+            Objects.equals(this.clientType, account.clientType) &&
+            Objects.equals(this.balance, account.balance) &&
+            Objects.equals(this.monthlyLimit, account.monthlyLimit) &&
+            Objects.equals(this.lastDepositDate, account.lastDepositDate) &&
+            Objects.equals(this.holders, account.holders) &&
+            Objects.equals(this.limitTransaction, account.limitTransaction);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, customerId, customerType, accountType, balance, monthlyLimit, lastDepositDate, holders);
+    return Objects.hash(id, customerId, dni, customerType, accountType,
+            clientType, balance, monthlyLimit, lastDepositDate, holders, limitTransaction);
   }
 
   @Override
@@ -308,12 +416,15 @@ public class Account {
     sb.append("class Account {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    customerId: ").append(toIndentedString(customerId)).append("\n");
+    sb.append("    dni: ").append(toIndentedString(dni)).append("\n");
     sb.append("    customerType: ").append(toIndentedString(customerType)).append("\n");
     sb.append("    accountType: ").append(toIndentedString(accountType)).append("\n");
+    sb.append("    clientType: ").append(toIndentedString(clientType)).append("\n");
     sb.append("    balance: ").append(toIndentedString(balance)).append("\n");
     sb.append("    monthlyLimit: ").append(toIndentedString(monthlyLimit)).append("\n");
     sb.append("    lastDepositDate: ").append(toIndentedString(lastDepositDate)).append("\n");
     sb.append("    holders: ").append(toIndentedString(holders)).append("\n");
+    sb.append("    limitTransaction: ").append(toIndentedString(limitTransaction)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -329,4 +440,3 @@ public class Account {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

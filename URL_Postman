@@ -25,3 +25,23 @@ http://localhost:8087/payments
     "customerId": "123456",
     "paymentDate": "2025-03-30"
 }
+*******************************************************
+[POST] Verifica si existe una tarjeta de credito asociada al customerId
+http://localhost:8087/creditcards/exists
+{
+  "customerId": ["456264", "67891", "11223"]
+}
+********************************************************
+[POST] Reporte de opraciones diarias por mes
+http://localhost:8087/report/operations
+{
+  "dni": "676789456"
+}
+********************************************************
+[POST] Servicio usado para el consumo de compras o pagos con la tarjta de credito
+http://localhost:8087/api/consume
+{
+  "customerId": "456264",
+  "monto": 500.00,
+  "transactionType": "PAGO"
+}

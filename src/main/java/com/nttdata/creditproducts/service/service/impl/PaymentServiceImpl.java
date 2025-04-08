@@ -43,7 +43,7 @@ public class PaymentServiceImpl implements PaymentService {
         return webClient.get()
                 .uri(accountsUri)
                 .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<Account>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<Account>>() { })
                 .flatMapMany(Flux::fromIterable)
                 .filter(account -> account.getCustomerId().equals(payment.getCustomerId()))
                 .next()
@@ -58,11 +58,12 @@ public class PaymentServiceImpl implements PaymentService {
                             .flatMap(savedPayment -> {
                                 account.setBalance(account.getBalance() - payment.getAmount().doubleValue());
                                 return webClient.put()
-                                        .uri(accountsUri+"/"+account.getId() )
+                                        .uri(accountsUri + "/" + account.getId())
                                         .bodyValue(account)
                                         .retrieve()
                                         .bodyToMono(AccountResponse.class)
-                                        .onErrorResume(e -> Mono.error(new BusinessException("Error updating account: " + e.getMessage())))
+                                        .onErrorResume(e -> Mono.error(new BusinessException("Error updating account: "
+                                                 + e.getMessage())))
                                         .thenReturn(savedPayment);
                             });
                 })

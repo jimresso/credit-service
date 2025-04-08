@@ -17,6 +17,8 @@ public class AccountResponse {
     private Integer monthlyLimit;
     private LocalDate lastDepositDate;
     private List<String> holders;
+    private Double limitTransaction;
+    private ClientType clientType;
 
     public enum AccountType {
         AHORRO,
@@ -26,5 +28,9 @@ public class AccountResponse {
     public enum CustomerType {
         PERSONAL,
         EMPRESARIAL
+    }
+    public enum ClientType {
+        VIP,
+        PYME,
     }
 }

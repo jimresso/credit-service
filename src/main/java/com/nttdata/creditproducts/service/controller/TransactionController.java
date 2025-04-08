@@ -20,9 +20,9 @@ private final TransactionService transactionService;
     private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     @Override
-    public Mono<ResponseEntity<Transaction>> consumeCreditCard(Mono<TransactionRequest>transactionRequest, ServerWebExchange exchange) {
-        logger.info("Starting createCreditCard");
+    public Mono<ResponseEntity<Transaction>> consumeCreditCard(Mono<TransactionRequest>transactionRequest,
+                                                               ServerWebExchange exchange) {
+        logger.info("Starting consumeCreditCard");
         return transactionRequest.flatMap(transactionService::consume);
     }
-
 }
