@@ -15,6 +15,7 @@ public interface CreditCardMapper {
     @Mapping(target = "limit", source = "limit")  // Antes: creditLimit
     @Mapping(target = "balance", source = "balance")  // Antes: availableBalance
     @Mapping(target = "status", source = "status")
+    @Mapping(target = "limitTransaction", source = "limitTransaction")
     CreditCardDTO toEntity(CreditCard dto);
 
     @Mapping(target = "id", source = "id")
@@ -25,5 +26,6 @@ public interface CreditCardMapper {
     @Mapping(target = "limit", source = "limit")
     @Mapping(target = "balance", source = "balance")
     @Mapping(target = "status", source = "status")
+    @Mapping(target = "limitTransaction", source = "limitTransaction")
     CreditCard toDto(CreditCardDTO entity);
 }

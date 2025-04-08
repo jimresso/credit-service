@@ -19,6 +19,7 @@ public class CreditCardDTO {
     private Double limit;
     private Double balance;
     private StatusEnum status;
+    private Double limitTransaction;
     public enum StatusEnum {
         ACTIVE, BLOCKED, CLOSED
     }

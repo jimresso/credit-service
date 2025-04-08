@@ -36,14 +36,6 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Value("${account.service.uri.put}")
     private String accountsUri;
 
-    @PostConstruct
-    public void init() {
-        if (webClientBuilder != null) {
-            System.out.println("WebClient.Builder inyectado correctamente.");
-        } else {
-            System.out.println("WebClient.Builder no está inyectado.");
-        }
-    }
     @Override
     public Mono<ResponseEntity<CreditCard>> createCreditCard(CreditCard credit) {
         WebClient webClient = webClientBuilder.build();

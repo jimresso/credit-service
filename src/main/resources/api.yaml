@@ -209,6 +209,28 @@ paths:
         '404':
           description: Credit card not found
 
+  /creditcards/{customerId}:
+    get:
+      summary: Obtener una tarjeta de crédito por ID
+      operationId: getCreditCardOperation
+      tags:
+        - credicard
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list of transactions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+
   /api/consume:
     post:
       summary: Consume a specified amount on the credit card
@@ -317,6 +339,9 @@ components:
         status:
           type: string
           enum: [ACTIVE, BLOCKED, CLOSED]
+        limitTransaction:
+          type: number
+          format: double
 
     Payment:
       type: object

@@ -14,6 +14,7 @@ public class TransactionDTO {
     private Double amount;
     private LocalDate transactionDate;
     private TransactionType transactionType;
+    private double commissionAmount;
 
     public enum TransactionType {
         COMPRA, PAGO
