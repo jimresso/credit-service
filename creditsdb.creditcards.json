@@ -1,14 +1,16 @@
 [{
   "_id": {
-    "$oid": "67ea617cbdaa9b0eb6addd1c"
+    "$oid": "67f596a173622628fab71d69"
   },
-  "customerId": "67890",
-  "cardNumber": "1234567812345678",
+  "customerId": "456264",
+  "dni": "676789456",
+  "cardNumber": "122-4455-6447",
   "expirationDate": {
-    "$date": "2025-12-31T05:00:00.000Z"
+    "$date": "2030-12-31T05:00:00.000Z"
   },
-  "limit": 5000,
-  "balance": 1000,
+  "limit": 10000,
+  "balance": 0,
   "status": "ACTIVE",
+  "limitTransaction": 10,
   "_class": "com.nttdata.creditproducts.service.model.CreditCardDTO"
 }]
