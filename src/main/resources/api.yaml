@@ -6,82 +6,6 @@ info:
   version: 1.0.0
 
 paths:
-  /credits:
-    get:
-      summary: Obtener todos los créditos
-      operationId: getAllCredits
-      tags:
-        - credit
-      responses:
-        '200':
-          description: Lista de créditos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Credit'
-    post:
-      summary: Crear un nuevo crédito
-      operationId: createCredit
-      tags:
-        - credit
-      responses:
-        '201':
-          description: Crédito creado exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Credit'
-
-  /credits/{id}:
-    get:
-      summary: Obtener un crédito por ID
-      operationId: getCreditById
-      tags:
-        - credit
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Detalle del crédito
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Credit'
-    put:
-      summary: Actualizar un crédito
-      operationId: updateCredit
-      tags:
-        - credit
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Crédito actualizado exitosamente
-    delete:
-      summary: Eliminar un crédito
-      operationId: deleteCredit
-      tags:
-        - credit
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Crédito eliminado exitosamente
-
   /creditcards:
     get:
       summary: Obtener todas las tarjetas de crédito
@@ -116,77 +40,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/CreditCard'
 
-  /creditcards/{id}:
-    get:
-      summary: Obtener una tarjeta de crédito por ID
-      operationId: getCreditCardById
-      tags:
-        - credicard
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Detalle de la tarjeta de crédito
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreditCard'
-    put:
-      summary: Actualizar una tarjeta de crédito
-      operationId: updateCreditCard
-      tags:
-        - credicard
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Tarjeta de crédito actualizada exitosamente
-    delete:
-      summary: Eliminar una tarjeta de crédito
-      operationId: deleteCreditCard
-      tags:
-        - credicard
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Tarjeta de crédito eliminada exitosamente
-    post:
-      summary: Actualizar una tarjeta de crédito existente
-      operationId: updateCreditCardDetails
-      tags:
-        - credicard
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreditCard'
-      responses:
-        '200':
-          description: Tarjeta de crédito actualizada exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreditCard'
   /creditcards/exists:
     post:
       summary: validate if you have a credit card
@@ -209,18 +62,18 @@ paths:
         '404':
           description: Credit card not found
 
-  /creditcards/{customerId}:
-    get:
+  /creditcards/products:
+    post:
       summary: Obtener una tarjeta de crédito por ID
-      operationId: getCreditCardOperation
+      operationId: products
       tags:
         - credicard
-      parameters:
-        - name: customerId
-          in: path
-          required: true
-          schema:
-            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredicardProductRequest'
       responses:
         '200':
           description: list of transactions
@@ -229,7 +82,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Transaction'
+                  $ref: '#/components/schemas/CreditCard'
 
   /api/consume:
     post:
@@ -298,26 +151,6 @@ paths:
 
 components:
   schemas:
-    Credit:
-      type: object
-      properties:
-        id:
-          type: string
-        customerId:
-          type: string
-        creditType:
-          type: string
-          enum: [PERSONAL, EMPRESARIAL]
-        amount:
-          type: number
-        interestRate:
-          type: number
-        termMonths:
-          type: integer
-        status:
-          type: string
-          enum: [ACTIVE, CLOSED]
-
     CreditCard:
       type: object
       properties:
@@ -381,7 +214,6 @@ components:
             - COMPRA
             - PAGO
 
-
     Transaction:
       type: object
       properties:
@@ -433,6 +265,12 @@ components:
           format: date
 
     ReportOperationsRequest:
+      type: object
+      properties:
+        dni:
+          type: string
+
+    CredicardProductRequest:
       type: object
       properties:
         dni:
