@@ -9,12 +9,14 @@ import org.openapitools.model.Transaction;
 public interface TransactionMapper {
 
     @Mapping(target = "customerId", source = "customerId")
+  //  @Mapping(target = "cardNumber", source = "cardNumber")
     @Mapping(target = "amount", source = "amount")
     @Mapping(target = "transactionDate", source = "transactionDate")
     @Mapping(target = "transactionType", source = "transactionType")
     Transaction toEntity(TransactionDTO transactionDTO);
 
     @Mapping(target = "customerId", source = "customerId")
+ //   @Mapping(target = "cardNumber", source = "cardNumber")
     @Mapping(target = "amount", source = "amount")
     @Mapping(target = "transactionDate", source = "transactionDate")
     @Mapping(target = "transactionType", source = "transactionType")

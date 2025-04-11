@@ -95,14 +95,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/transactionRequest'  # Referencia al esquema de Transaction
+              $ref: '#/components/schemas/transactionRequest'
       responses:
         '200':
           description: Credit card successfully updated with consumption
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transaction'  # El esquema actualizado de la tarjeta de crédito
+                $ref: '#/components/schemas/Transaction'
         '400':
           description: Insufficient credit limit or invalid request
         '404':
@@ -172,6 +172,9 @@ components:
         status:
           type: string
           enum: [ACTIVE, BLOCKED, CLOSED]
+        typeCard:
+          type: string
+          enum: [DEBITO, CREDITO]
         limitTransaction:
           type: number
           format: double
@@ -205,6 +208,8 @@ components:
       type: object
       properties:
         customerId:
+          type: string
+        cardNumber:
           type: string
         monto:
           type: number

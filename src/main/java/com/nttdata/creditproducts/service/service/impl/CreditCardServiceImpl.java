@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.CardRequest;
 import org.openapitools.model.CardResponse;
+import org.openapitools.model.CredicardProductRequest;
 import org.openapitools.model.CreditCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -31,8 +33,7 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final CreditCardRepository creditCardRepository;
     private final CreditCardMapper creditCardMapper;
     private static final Logger logger = LoggerFactory.getLogger(CreditCardServiceImpl.class);
-    @Autowired
-    private WebClient.Builder webClientBuilder;
+    private final WebClient.Builder webClientBuilder;
     @Value("${account.service.uri.put}")
     private String accountsUri;
 
@@ -52,6 +53,10 @@ public class CreditCardServiceImpl implements CreditCardService {
                 }))
                 .flatMap(account -> {
                     logger.info("Building credit for the customer {}", credit.getCustomerId());
+                    if (credit.getTypeCard().equals(CreditCard.TypeCardEnum.DEBITO)) {
+                        credit.setBalance(new BigDecimal(account.getBalance().toString()));
+                        credit.setLimit(new BigDecimal("0"));
+                    }
                     return creditCardRepository.save(creditCardMapper.toEntity(credit))
                             .map(creditCardMapper::toDto)
                             .map(savedCredit -> ResponseEntity
@@ -75,4 +80,22 @@ public class CreditCardServiceImpl implements CreditCardService {
                         return ResponseEntity.ok(response);
                 });
     }
+
+    @Override
+    public Mono<ResponseEntity<Flux<CreditCard>>> getAllProductUser(
+            CredicardProductRequest credicardProductRequest) {
+        return Mono.defer(() -> {
+            Flux<CreditCard> flux = creditCardRepository
+                    .findByDni(credicardProductRequest.getDni());
+
+            return Mono.just(ResponseEntity.ok(flux));
+        }).onErrorResume(e -> {
+            logger.error("Error obtaining credit cards for the DNI: {}",
+                    credicardProductRequest.getDni(), e);
+            return Mono.just(ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Flux.empty()));
+        });
+    }
+
 }

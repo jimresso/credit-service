@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Document(collection = "transactions")
 public class TransactionDTO {
     private String customerId;
+    private String cardNumber;
     private String dni;
     private Double amount;
     private LocalDate transactionDate;

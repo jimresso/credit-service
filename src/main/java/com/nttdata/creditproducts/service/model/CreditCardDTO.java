@@ -1,6 +1,7 @@
 package com.nttdata.creditproducts.service.model;
 
 import lombok.Data;
+import org.openapitools.model.CreditCard;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
@@ -19,9 +20,14 @@ public class CreditCardDTO {
     private Double limit;
     private Double balance;
     private StatusEnum status;
+    private TypeCardEnum typeCard;
     private Double limitTransaction;
+
     public enum StatusEnum {
         ACTIVE, BLOCKED, CLOSED
+    }
+    public enum TypeCardEnum {
+        DEBITO, CREDITO
     }
 
 

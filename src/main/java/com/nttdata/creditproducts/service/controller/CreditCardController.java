@@ -38,8 +38,10 @@ public class CreditCardController implements CreditcardsApi {
     }
 
     @Override
-    public Mono<ResponseEntity<Flux<CreditCard>>> products(Mono<CredicardProductRequest> credicardProductRequest, ServerWebExchange exchange) {
-        return CreditcardsApi.super.products(credicardProductRequest, exchange);
+    public Mono<ResponseEntity<Flux<CreditCard>>> products(
+            Mono<CredicardProductRequest> credicardProductRequest, ServerWebExchange exchange) {
+        logger.info("Starting products");
+        return credicardProductRequest.flatMap(creditCardService::getAllProductUser);
     }
 
 }
