@@ -57,8 +57,10 @@ public class TransactionServiceImpl implements TransactionService {
                                 .retrieve()
                                 .bodyToMono(Account.class)
                                 .onErrorResume(throwable -> {
-                                    if (throwable instanceof BusinessException && throwable.getMessage().contains("insufficient balance")) {
-                                        return Mono.error(new InsufficientFundsException("Insufficient balance in the account"));
+                                    if (throwable instanceof BusinessException &&
+                                            throwable.getMessage().contains("insufficient balance")) {
+                                        return Mono.error(
+                                                new InsufficientFundsException("Insufficient balance in the account"));
                                     }
                                     return Mono.error(throwable);
                                 })

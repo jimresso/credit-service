@@ -147,7 +147,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReportOperationsResponse"
-
+  /debtors:
+    post:
+      summary: Record outstanding debt
+      operationId: debtors
+      tags:
+        - debtors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/debtorsRequest'
+      responses:
+        '201':
+          description: Registered debt
 
 components:
   schemas:
@@ -280,3 +294,20 @@ components:
       properties:
         dni:
           type: string
+
+    debtorsRequest:
+      type: object
+      properties:
+        customerId:
+          type: string
+        cardNumber:
+          type: string
+        amount:
+          type: number
+          format: double
+        expirationDate:
+          type: string
+          format: date
+        status:
+          type: string
+          enum: [PENDING, CANCELED]

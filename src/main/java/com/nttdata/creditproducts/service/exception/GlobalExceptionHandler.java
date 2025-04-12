@@ -33,4 +33,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInsufficientFundsException(InsufficientFundsException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+    @ExceptionHandler(InternalServerErrorException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleInternalServerError(InternalServerErrorException ex) {
+        return Collections.singletonMap("error", ex.getMessage());
+    }
+    @ExceptionHandler(RemoteServiceUnavailableException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public Map<String, String> handleRemoteServiceDown(RemoteServiceUnavailableException ex) {
+        return Collections.singletonMap("error", ex.getMessage());
+    }
 }
