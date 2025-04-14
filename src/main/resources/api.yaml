@@ -163,6 +163,36 @@ paths:
         '201':
           description: Registered debt
 
+  /debtors/find:
+    post:
+      summary: Check if any customerId has outstanding debts
+      operationId: checkDebtors
+      tags:
+        - debtors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customerIds:
+                  type: array
+                  items:
+                    type: string
+              example:
+                customerIds: ["cust-001", "cust-002"]
+      responses:
+        '200':
+          description: Whether any of the provided customerIds has outstanding debts
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+        '500':
+          description: Internal error
+
 components:
   schemas:
     CreditCard:

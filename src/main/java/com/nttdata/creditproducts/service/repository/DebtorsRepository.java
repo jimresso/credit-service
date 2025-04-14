@@ -8,4 +8,5 @@ import reactor.core.publisher.Flux;
 
 public interface DebtorsRepository extends ReactiveMongoRepository<debtorsDTO, String> {
     Flux<debtorsDTO> findByCardNumber(String cardNumber);
+    Flux<debtorsDTO> findByCustomerId(String customerId);
 }

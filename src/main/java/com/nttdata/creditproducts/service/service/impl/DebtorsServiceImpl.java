@@ -1,18 +1,25 @@
 package com.nttdata.creditproducts.service.service.impl;
 
 import com.nttdata.creditproducts.service.exception.CreditCardNotFoundException;
+import com.nttdata.creditproducts.service.exception.InternalServerErrorException;
 import com.nttdata.creditproducts.service.mapper.DebtorsMapper;
+import com.nttdata.creditproducts.service.model.debtorsDTO;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.repository.DebtorsRepository;
 import com.nttdata.creditproducts.service.service.DebtorsService;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.CheckDebtorsRequest;
+import org.openapitools.model.CreditCard;
 import org.openapitools.model.DebtorsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,5 +53,19 @@ public class DebtorsServiceImpl implements DebtorsService {
                     return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
                 });
     }
+
+    @Override
+    public Mono<ResponseEntity<Boolean>> checkDebts(CheckDebtorsRequest checkDebtorsRequest) {
+        List<String> customerIds = checkDebtorsRequest.getCustomerIds();
+        return Flux.fromIterable(customerIds)
+                .flatMap(customerId -> debtorsRepository.findByCustomerId(customerId)
+                        .filter(debt -> debt.getStatus() == debtorsDTO.StatusEnum.PENDING))
+                .hasElements()
+                .map(ResponseEntity::ok)
+                .onErrorResume(e -> {
+                    logger.error("Error while checking debts: {}", e.getMessage());
+                    return Mono.error(new InternalServerErrorException("Could not check customer debts", e));
+                });
     }
+}
 

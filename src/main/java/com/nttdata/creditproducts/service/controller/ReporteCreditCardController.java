@@ -21,6 +21,7 @@ public class ReporteCreditCardController implements ReportApi {
     @Override
     public Mono<ResponseEntity<ReportOperationsResponse>> reportOperations(
             Mono<ReportOperationsRequest> reportOperationsRequest, ServerWebExchange exchange) {
+        logger.info("Starting reportOperations");
         return reportOperationsRequest.flatMap(
                 c -> reportCreditCardService.findallOperation(c.getDni()));
     }

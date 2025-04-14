@@ -1,4 +1,4 @@
-package com.nttdata.creditproducts.service.notificaciones;
+package com.nttdata.creditproducts.service.notifications;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -27,7 +27,7 @@ public class FallbackNotifier {
             String body = """
                     ️ Fallback activado en el microservicio de cuentas
 
-                     Método afectado: newAccount
+                     Método afectado: createCreditCard
                      Origen: %s
                      Excepción: %s
                      Mensaje: %s

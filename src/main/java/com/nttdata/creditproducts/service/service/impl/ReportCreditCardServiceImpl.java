@@ -1,6 +1,7 @@
 package com.nttdata.creditproducts.service.service.impl;
 
 import com.nttdata.creditproducts.service.exception.BusinessException;
+import com.nttdata.creditproducts.service.exception.InternalServerErrorException;
 import com.nttdata.creditproducts.service.model.TransactionDTO;
 import com.nttdata.creditproducts.service.repository.TransactionRepository;
 import com.nttdata.creditproducts.service.service.ReportCreditCardService;
@@ -44,12 +45,11 @@ public class ReportCreditCardServiceImpl  implements ReportCreditCardService {
                     return ResponseEntity.ok(response);
                 })
                 .onErrorResume(ex -> {
-                    if (ex instanceof BusinessException) {
-                        logger.warn("Business error: {}", ex.getMessage());
-                        return Mono.just(ResponseEntity.badRequest().build());
+                    if (!(ex instanceof BusinessException)) {
+                        logger.error("Internal error generating the report: {}", ex.getMessage(), ex);
+                        return Mono.error(new InternalServerErrorException("Unexpected server error"));
                     }
-                    logger.error("Internal error generating the report: {}", ex.getMessage(), ex);
-                    return Mono.just(ResponseEntity.internalServerError().build());
+                    return Mono.error(ex);
                 });
     }
 }
