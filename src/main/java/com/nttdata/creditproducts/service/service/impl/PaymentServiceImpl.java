@@ -1,8 +1,8 @@
 package com.nttdata.creditproducts.service.service.impl;
 
 
+import com.nttdata.creditproducts.service.configure.CreditProperties;
 import com.nttdata.creditproducts.service.exception.BusinessException;
-import com.nttdata.creditproducts.service.mapper.AccountMapper;
 import com.nttdata.creditproducts.service.mapper.PaymentMapper;
 import com.nttdata.creditproducts.service.model.Account;
 import com.nttdata.creditproducts.service.model.AccountResponse;
@@ -29,18 +29,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
-    private final AccountMapper accountMapper;
-
+    private final CreditProperties creditProperties;
     private WebClient.Builder webClientBuilder;
-    @Value("${account.service.uri.put}")
-    private String accountsUri;
     private static final Logger logger = LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     @Override
     public Mono<ResponseEntity<Payment>> create(Payment payment) {
         WebClient webClient = webClientBuilder.build();
         return webClient.get()
-                .uri(accountsUri)
+                .uri(creditProperties.getUri())
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<Account>>() { })
                 .flatMapMany(Flux::fromIterable)
@@ -57,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
                             .flatMap(savedPayment -> {
                                 account.setBalance(account.getBalance() - payment.getAmount().doubleValue());
                                 return webClient.put()
-                                        .uri(accountsUri + "/" + account.getId())
+                                        .uri(creditProperties.getUri()+ "/" + account.getId())
                                         .bodyValue(account)
                                         .retrieve()
                                         .bodyToMono(AccountResponse.class)

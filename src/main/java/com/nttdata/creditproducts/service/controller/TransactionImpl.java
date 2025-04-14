@@ -15,9 +15,9 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class TransactionController implements ApiApi {
+public class TransactionImpl implements ApiApi {
 private final TransactionService transactionService;
-    private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionImpl.class);
 
     @Override
     public Mono<ResponseEntity<Transaction>> consumeCreditCard(Mono<TransactionRequest>transactionRequest,

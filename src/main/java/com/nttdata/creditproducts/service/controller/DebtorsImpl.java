@@ -14,9 +14,9 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class DebtorsController implements DebtorsApi {
+public class DebtorsImpl implements DebtorsApi {
     private final DebtorsService debtorsService;
-    private static final Logger logger = LoggerFactory.getLogger(DebtorsController.class);
+    private static final Logger logger = LoggerFactory.getLogger(DebtorsImpl.class);
 
     @Override
     public Mono<ResponseEntity<Boolean>> checkDebtors(

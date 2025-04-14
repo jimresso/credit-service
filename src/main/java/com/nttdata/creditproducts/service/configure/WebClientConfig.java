@@ -1,5 +1,6 @@
 package com.nttdata.creditproducts.service.configure;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.context.annotation.Bean;
@@ -10,18 +11,14 @@ import java.util.Map;
 
 
 @Configuration
+@RequiredArgsConstructor
 public class WebClientConfig {
-
-    @Value("${account.service.url}")
-    private String baseUrl;
-
-    @Value("${account.service.uri.put}")
-    private String accountsUri;
+    private final CreditProperties creditProperties;
     @Bean
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder()
                 .baseUrl("http://localhost:8086") // URL base del servicio
                 .defaultHeader("Content-Type", "application/json")
-                .defaultUriVariables(Map.of("accountsUri", accountsUri));
+                .defaultUriVariables(Map.of("accountsUri", creditProperties.getUri()));
     }
 }

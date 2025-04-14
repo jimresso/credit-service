@@ -13,9 +13,9 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class PaymentController implements PaymentsApi {
+public class PaymentImpl implements PaymentsApi {
     private final PaymentService paymentService;
-    private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PaymentImpl.class);
 
     @Override
     public Mono<ResponseEntity<Payment>> registerPayment(Mono<Payment> payment, ServerWebExchange exchange) {

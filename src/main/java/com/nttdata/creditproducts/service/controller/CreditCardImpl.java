@@ -19,9 +19,9 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class CreditCardController implements CreditcardsApi {
+public class CreditCardImpl implements CreditcardsApi {
     private final CreditCardService creditCardService;
-    private static final Logger logger = LoggerFactory.getLogger(CreditCardController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CreditCardImpl.class);
 
     @Override
     public Mono<ResponseEntity<CreditCard>> createCreditCard(Mono<CreditCard> creditCard,

@@ -1,5 +1,6 @@
 package com.nttdata.creditproducts.service.service.impl;
 
+import com.nttdata.creditproducts.service.configure.CreditProperties;
 import com.nttdata.creditproducts.service.exception.BusinessException;
 import com.nttdata.creditproducts.service.exception.CreditCardNotFoundException;
 import com.nttdata.creditproducts.service.exception.InsufficientFundsException;
@@ -38,8 +39,6 @@ public class TransactionServiceImpl implements TransactionService {
     private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
     private final WebClient.Builder webClientBuilder;
     private final FallbackNotifier fallbackNotifier;
-    @Value("${limit.transaction}")
-    private int limit;
     // Un cliente puede cargar consumos a sus tarjetas de crédito en base a su límite de crédito.
     @Override
     @CircuitBreaker(name = "circuitBreakerTransaction", fallbackMethod = "fallbackConsume")

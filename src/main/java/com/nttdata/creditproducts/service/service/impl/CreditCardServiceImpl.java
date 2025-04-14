@@ -1,6 +1,7 @@
 package com.nttdata.creditproducts.service.service.impl;
 
 
+import com.nttdata.creditproducts.service.configure.CreditProperties;
 import com.nttdata.creditproducts.service.exception.BusinessException;
 import com.nttdata.creditproducts.service.exception.InternalServerErrorException;
 import com.nttdata.creditproducts.service.exception.RemoteServiceUnavailableException;
@@ -42,8 +43,7 @@ public class CreditCardServiceImpl implements CreditCardService {
     private static final Logger logger = LoggerFactory.getLogger(CreditCardServiceImpl.class);
     private final WebClient.Builder webClientBuilder;
     private final FallbackNotifier fallbackNotifier;
-    @Value("${account.service.uri.put}")
-    private String accountsUri;
+    private final CreditProperties creditProperties;
 
 
     @Override
@@ -56,7 +56,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         }
         WebClient webClient = webClientBuilder.build();
         return webClient.get()
-                .uri(accountsUri)
+                .uri(creditProperties.getUri())
                 .retrieve()
                 .onStatus(HttpStatusCode::is5xxServerError, response -> {
                     logger.error("Account service responded 5xx");

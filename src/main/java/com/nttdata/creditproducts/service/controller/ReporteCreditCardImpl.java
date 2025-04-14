@@ -14,8 +14,8 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class ReporteCreditCardController implements ReportApi {
-    private static final Logger logger = LoggerFactory.getLogger(ReporteCreditCardController.class);
+public class ReporteCreditCardImpl implements ReportApi {
+    private static final Logger logger = LoggerFactory.getLogger(ReporteCreditCardImpl.class);
     private final ReportCreditCardService reportCreditCardService;
 
     @Override
