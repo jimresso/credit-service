@@ -47,7 +47,6 @@ public class TransactionServiceImpl implements TransactionService {
         if (transactionRequest.getCardNumber() == null || transactionRequest.getCardNumber().isBlank()) {
             return Mono.error(new BusinessException("Card number is required"));
         }
-        WebClient webClient = webClientBuilder.build();
         String customerId = transactionRequest.getCustomerId();
         String cardNumber = transactionRequest.getCardNumber();
         Double amount = transactionRequest.getMonto().doubleValue();
@@ -124,7 +123,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .switchIfEmpty(Mono.error(new CreditCardNotFoundException("Credit card not found")));
     }
 
-    public Mono<ResponseEntity<Transaction>> fallbackConsume(TransactionRequest request, Throwable throwable) {
+    public Mono<ResponseEntity<Transaction>> fallbackConsume(Throwable throwable) {
         logger.warn("Fallback activado para consume: {} - {}",
                 throwable.getClass().getSimpleName(), throwable.getMessage());
         if (throwable instanceof BusinessException) {

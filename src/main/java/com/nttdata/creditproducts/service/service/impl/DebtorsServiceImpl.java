@@ -3,13 +3,12 @@ package com.nttdata.creditproducts.service.service.impl;
 import com.nttdata.creditproducts.service.exception.CreditCardNotFoundException;
 import com.nttdata.creditproducts.service.exception.InternalServerErrorException;
 import com.nttdata.creditproducts.service.mapper.DebtorsMapper;
-import com.nttdata.creditproducts.service.model.debtorsDTO;
+import com.nttdata.creditproducts.service.model.DebtorsDTO;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.repository.DebtorsRepository;
 import com.nttdata.creditproducts.service.service.DebtorsService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.model.CheckDebtorsRequest;
-import org.openapitools.model.CreditCard;
 import org.openapitools.model.DebtorsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ public class DebtorsServiceImpl implements DebtorsService {
     private final DebtorsRepository debtorsRepository;
     private final CreditCardRepository creditCardRepository;
     private final DebtorsMapper debtorsMapper;
-    private static final Logger logger = LoggerFactory.getLogger(TransactionServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DebtorsServiceImpl.class);
     @Override
     public Mono<ResponseEntity<Void>> saveDebt(DebtorsRequest c) {
         String customerId = c.getCustomerId();
@@ -59,7 +58,7 @@ public class DebtorsServiceImpl implements DebtorsService {
         List<String> customerIds = checkDebtorsRequest.getCustomerIds();
         return Flux.fromIterable(customerIds)
                 .flatMap(customerId -> debtorsRepository.findByCustomerId(customerId)
-                        .filter(debt -> debt.getStatus() == debtorsDTO.StatusEnum.PENDING))
+                        .filter(debt -> debt.getStatus() == DebtorsDTO.StatusEnum.PENDING))
                 .hasElements()
                 .map(ResponseEntity::ok)
                 .onErrorResume(e -> {

@@ -1,7 +1,6 @@
 package com.nttdata.creditproducts.service.model;
 
 import lombok.Data;
-import org.openapitools.model.CreditCard;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
