@@ -1,6 +1,6 @@
 package com.nttdata.creditproducts.service.mapper;
 
-import com.nttdata.creditproducts.service.model.DebtorsDTO;
+import com.nttdata.creditproducts.service.model.debtorsDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.openapitools.model.DebtorsRequest;
@@ -12,6 +12,6 @@ public interface DebtorsMapper {
     @Mapping(target = "amount", source = "amount")
     @Mapping(target = "expirationDate", source = "expirationDate")
     @Mapping(target = "status", source = "status")
-    DebtorsDTO toEntity(DebtorsRequest debtorsRequest);
+    debtorsDTO toEntity(DebtorsRequest debtorsRequest);
 
 }

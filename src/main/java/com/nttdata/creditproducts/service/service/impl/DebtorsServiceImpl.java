@@ -3,7 +3,7 @@ package com.nttdata.creditproducts.service.service.impl;
 import com.nttdata.creditproducts.service.exception.CreditCardNotFoundException;
 import com.nttdata.creditproducts.service.exception.InternalServerErrorException;
 import com.nttdata.creditproducts.service.mapper.DebtorsMapper;
-import com.nttdata.creditproducts.service.model.DebtorsDTO;
+import com.nttdata.creditproducts.service.model.debtorsDTO;
 import com.nttdata.creditproducts.service.repository.CreditCardRepository;
 import com.nttdata.creditproducts.service.repository.DebtorsRepository;
 import com.nttdata.creditproducts.service.service.DebtorsService;
@@ -58,7 +58,7 @@ public class DebtorsServiceImpl implements DebtorsService {
         List<String> customerIds = checkDebtorsRequest.getCustomerIds();
         return Flux.fromIterable(customerIds)
                 .flatMap(customerId -> debtorsRepository.findByCustomerId(customerId)
-                        .filter(debt -> debt.getStatus() == DebtorsDTO.StatusEnum.PENDING))
+                        .filter(debt -> debt.getStatus() == debtorsDTO.StatusEnum.PENDING))
                 .hasElements()
                 .map(ResponseEntity::ok)
                 .onErrorResume(e -> {

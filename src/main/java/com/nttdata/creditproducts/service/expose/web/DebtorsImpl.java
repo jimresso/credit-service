@@ -1,4 +1,4 @@
-package com.nttdata.creditproducts.service.controller;
+package com.nttdata.creditproducts.service.expose.web;
 
 import com.nttdata.creditproducts.service.service.DebtorsService;
 import lombok.RequiredArgsConstructor;

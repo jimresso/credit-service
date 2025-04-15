@@ -54,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
                             .flatMap(savedPayment -> {
                                 account.setBalance(account.getBalance() - payment.getAmount().doubleValue());
                                 return webClient.put()
-                                        .uri(creditProperties.getUri()+ "/" + account.getId())
+                                        .uri(creditProperties.getUri() + "/" + account.getId())
                                         .bodyValue(account)
                                         .retrieve()
                                         .bodyToMono(AccountResponse.class)

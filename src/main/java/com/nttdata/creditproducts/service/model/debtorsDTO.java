@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Document(collection = "debtors")
-public class DebtorsDTO {
+public class debtorsDTO {
     @Id
     private String id;
     private String customerId;
