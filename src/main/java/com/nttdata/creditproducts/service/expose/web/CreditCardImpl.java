@@ -1,10 +1,11 @@
-package com.nttdata.creditproducts.service.controller;
+package com.nttdata.creditproducts.service.expose.web;
 
 import com.nttdata.creditproducts.service.service.CreditCardService;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.CreditcardsApi;
 import org.openapitools.model.CardRequest;
 import org.openapitools.model.CardResponse;
+import org.openapitools.model.CredicardProductRequest;
 import org.openapitools.model.CreditCard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +13,15 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
 @RestController
 @RequiredArgsConstructor
-public class CreditCardController implements CreditcardsApi {
+public class CreditCardImpl implements CreditcardsApi {
     private final CreditCardService creditCardService;
-    private static final Logger logger = LoggerFactory.getLogger(CreditCardController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CreditCardImpl.class);
 
     @Override
     public Mono<ResponseEntity<CreditCard>> createCreditCard(Mono<CreditCard> creditCard,
@@ -33,6 +35,13 @@ public class CreditCardController implements CreditcardsApi {
                                                              ServerWebExchange exchange) {
         logger.info("Starting hascreeditcard");
         return cardRequest.flatMap(creditCardService::validCreditCard);
+    }
+
+    @Override
+    public Mono<ResponseEntity<Flux<CreditCard>>> products(
+            Mono<CredicardProductRequest> credicardProductRequest, ServerWebExchange exchange) {
+        logger.info("Starting products");
+        return credicardProductRequest.flatMap(creditCardService::getAllProductUser);
     }
 
 }

@@ -8,8 +8,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 @Disabled
 class CreditProductsServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
 }

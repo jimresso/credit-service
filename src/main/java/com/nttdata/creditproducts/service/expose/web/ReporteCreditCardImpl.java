@@ -1,4 +1,4 @@
-package com.nttdata.creditproducts.service.controller;
+package com.nttdata.creditproducts.service.expose.web;
 
 import com.nttdata.creditproducts.service.service.ReportCreditCardService;
 import lombok.RequiredArgsConstructor;
@@ -14,13 +14,14 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-public class ReporteCreditCardController implements ReportApi {
-    private static final Logger logger = LoggerFactory.getLogger(ReporteCreditCardController.class);
+public class ReporteCreditCardImpl implements ReportApi {
+    private static final Logger logger = LoggerFactory.getLogger(ReporteCreditCardImpl.class);
     private final ReportCreditCardService reportCreditCardService;
 
     @Override
     public Mono<ResponseEntity<ReportOperationsResponse>> reportOperations(
             Mono<ReportOperationsRequest> reportOperationsRequest, ServerWebExchange exchange) {
+        logger.info("Starting reportOperations");
         return reportOperationsRequest.flatMap(
                 c -> reportCreditCardService.findallOperation(c.getDni()));
     }

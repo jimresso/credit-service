@@ -3,31 +3,23 @@ package com.nttdata.creditproducts.service.model;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDate;
 
-
-
 @Data
-@Document(collection = "creditcards")
-public class CreditCardDTO {
+@Document(collection = "debtors")
+public class debtorsDTO {
     @Id
     private String id;
     private String customerId;
-    private String dni;
     private String cardNumber;
+    private Double amount;
     private LocalDate expirationDate;
-    private Double limit;
-    private Double balance;
     private StatusEnum status;
-    private TypeCardEnum typeCard;
-    private Double limitTransaction;
-
     public enum StatusEnum {
-        ACTIVE, BLOCKED, CLOSED
+        PENDING, CANCELED
     }
-    public enum TypeCardEnum {
-        DEBITO, CREDITO
-    }
+
 
 
 }

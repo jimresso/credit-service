@@ -14,7 +14,8 @@ import java.util.Objects;
  */
 
 @JsonTypeName("taxedTransactionLimit")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-07T18:03:11.536817500-05:00[America/Lima]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen",
+        date = "2025-04-07T18:03:11.536817500-05:00[America/Lima]")
 public class TaxedTransactionLimit {
 
   private String id;
